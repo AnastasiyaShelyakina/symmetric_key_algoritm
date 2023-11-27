@@ -1,9 +1,19 @@
-﻿// SymmetricKeyAlgoritm.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+﻿#include <iostream>
+#include <string>
+#include "Algorithm.h"
 
-#include <iostream>
+using namespace std;
 
-int main()
-{
-    std::cout << "Hello team!\n";
+void Run_encryption(Algorithm a, std::string author) {
+    string word=a("algorithm");
+    // Вывод зашифрованного слова
+    std::cout << "Encrypted word: " << word <<"  " << author << std::endl;
+
+}
+
+int main() {
+    Run_encryption(DEA_encryption, "Shelyakina Anastasiya");
+    // Допишите сюда функцию шифрования
+    // Run(название функции, "Ваше имя");
+    return 0;
 }
