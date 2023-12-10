@@ -1,0 +1,8 @@
+The input key is:
+10 1a c b 1 11 9 7 32 a1 b3 6 23 12 d3 f1 
+The plain text is:
+6162 6364 6566 6768 
+The cipherText is:
+21b3 1e41 e563 d59b 
+The deCipherText is:
+6162 6364 6566 6768 
