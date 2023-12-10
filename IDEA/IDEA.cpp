@@ -183,6 +183,9 @@ word16 IDEA::mul(word16 x, word16 y) {
 void IDEA::IDEATest() {
 	using namespace std;  // Чтобы не использовать std:: перед setw и setfill
 
+	cout << "The original word is:" << endl;
+	cout << "abcdefgh" << endl;
+
 	cout << "The input key is:" << endl;
 	int i;
 	for (i = 0; i < 16; i++) {
