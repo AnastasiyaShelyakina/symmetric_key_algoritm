@@ -3,6 +3,7 @@
 #include <string>
 #include "Algorithm.h"
 #include "AES.h"
+#include "blowfish.h"
 /// Если у вас есть заголовочные файлы добавляйте их сюда
 
 
@@ -17,6 +18,7 @@ void Run(Algorithm a, Algorithm b, std::string author) {
 }
 int main() {
     Run(AES_encryptString, AES_decryptString, "Shelyakina Anastasiya");
+    Run(Blowfish_encryptString, Blowfish_decryptString, "Saifullin Bulat");
     ///Дописываете здесь себя  Run(функция шифровки, функция дешифровки, "имя");
     
     return 0;
