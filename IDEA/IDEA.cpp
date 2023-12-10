@@ -2,6 +2,7 @@
 #include <fstream>
 using namespace std;
 #include "IDEA.h"
+#include <iomanip>
 
 class IDEA
 {
@@ -180,29 +181,32 @@ word16 IDEA::mul(word16 x, word16 y) {
 	}
 }
 void IDEA::IDEATest() {
-	//Запись в файл 
-	ofstream fout("ideatest.txt");
-	fout << "The input key is:" << endl;
+	using namespace std;  // Чтобы не использовать std:: перед setw и setfill
+
+	cout << "The input key is:" << endl;
 	int i;
 	for (i = 0; i < 16; i++) {
-		fout << hex << int(key[i]) << " ";
+		cout << hex << setw(2) << setfill('0') << int(key[i]) << " ";
 	}
-	fout << endl;
-	fout << "The plain text is:" << endl;
+	cout << endl;
+
+	cout << "The plain text is:" << endl;
 	for (i = 0; i < 4; i++) {
-		fout << hex << plainText[i] << " ";
+		cout << hex << setw(4) << setfill('0') << plainText[i] << " ";
 	}
-	fout << endl;
-	fout << "The cipherText is:" << endl;
+	cout << endl;
+
+	cout << "The cipherText is:" << endl;
 	for (i = 0; i < 4; i++) {
-		fout << hex << cipherText[i] << " ";
+		cout << hex << setw(4) << setfill('0') << cipherText[i] << " ";
 	}
-	fout << endl;
-	fout << "The deCipherText is:" << endl;
+	cout << endl;
+
+	cout << "The deCipherText is:" << endl;
 	for (i = 0; i < 4; i++) {
-		fout << hex << deCipherText[i] << " ";
+		cout << hex << setw(4) << setfill('0') << deCipherText[i] << " ";
 	}
-	fout << endl;
+	cout << endl;
 }
 
 void IDEA::enc() {
