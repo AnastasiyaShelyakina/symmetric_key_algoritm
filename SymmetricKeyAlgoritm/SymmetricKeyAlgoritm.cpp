@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-int main()
-{
-    std::cout << "Hello team!\n";
-}
+//int main()
+//{
+//    std::cout << "Hello team!\n";
+//}
