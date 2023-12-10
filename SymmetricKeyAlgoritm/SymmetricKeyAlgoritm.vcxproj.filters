@@ -24,9 +24,18 @@
     <ClCompile Include="DEA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cast128.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cast128_Egorkina.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Algorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cast128.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
