@@ -3,7 +3,9 @@
 using namespace std;
 #include "IDEA.h"
 #include <iomanip>
+#include <windows.h>
 #include <algorithm>
+
 
 void IDEA::setPlainText(byte in[]) {
 	// Устанавливает открытый текст в формате byte. 
@@ -204,7 +206,7 @@ std::string IDEA::encrypt(const std::string& inputString, byte key[]) {
 
 	if (!inputString.empty()) {
 		// Преобразование строки в массив байтов
-		size_t minSize = std::min(inputString.size(), sizeof(plainTextBytes));
+		size_t minSize = min(inputString.size(), sizeof(plainTextBytes));
 		for (size_t i = 0; i < minSize; ++i) {
 			plainTextBytes[i] = static_cast<byte>(inputString[i]);
 		}
