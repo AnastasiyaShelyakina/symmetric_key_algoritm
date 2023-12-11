@@ -40,7 +40,7 @@ class Magma {
             keys[i * 2 + 1] = right;
         }
     }
-    ulong f(ullong a, ullong x, int pi) {
+    ulong f(ullong a, ullong x, int pi) {  //выполнение функцией f одного раунда шифрования
         a += x;
         a &= mod32;
         int un[8];
@@ -68,7 +68,6 @@ class Magma {
             right = left ^ f(right, xkey[i], i);//применение xor
             left = old;
         }
-        //last round, 32
         left = left ^ f(right, xkey[31], 31);
         left <<= 32;
         left += right;
@@ -82,3 +81,30 @@ class Magma {
             xkey[32 - i - 1] = keys[i];
         }
     }
+public:
+    Magma(int256 key) : key{ key } {
+        setKeys();
+    }
+    ullong encrypt(ullong data) { //алгоритм шифровки ГОСТ-28147-89
+        ullong left = data;
+        ullong right = left & mod32;
+        left >>= 32;
+        setXkey();
+        data = round(left, right);
+        return data;
+    }
+    ullong decrypt(ullong data) { //алгоритм дешифровки ГОСТ-28147-89
+        ullong left = data;
+        ullong right = left & mod32;
+        left >>= 32;
+        setXkey();
+        for (int i = 8; i < 16; ++i) {
+            std::swap(xkey[i], xkey[32 - i - 1]);
+        }
+        data = round(left, right);
+        return data;
+    }
+    int256 getKey() {
+        return key;
+    }
+};
