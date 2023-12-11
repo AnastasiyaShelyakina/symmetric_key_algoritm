@@ -319,10 +319,10 @@ void Blowfish::decrypt(uint32_t& xl, uint32_t& xr) {
 
 //***********************************************************************************************
 
-std::string Blowfish_encryptString(const std::string& inputMessage) {
+std::string Blowfish_encryptString(const std::string& input) {
     std::string key("very secret key");
     std::string cipher("");
-    std::string message(inputMessage);
+    std::string message(input);
     int len = message.length();
     int j = sizeof(uint32_t);
 
@@ -344,17 +344,17 @@ std::string Blowfish_encryptString(const std::string& inputMessage) {
     return cipher;
 }
 
-std::string Blowfish_decryptString(const std::string& cipher) {
+std::string Blowfish_decryptString(const std::string& input) {
     std::string key("very secret key");
     std::string decipher("");
-    int len = cipher.length();
+    int len = input.length();
     uint32_t lm, rm;
 
     Blowfish blowfish(key);
 
     for (size_t i = 0; i < len; i += 8) {
-        lm = *reinterpret_cast<unsigned int*>(const_cast<char*>(cipher.substr(i, 4).c_str()));
-        rm = *reinterpret_cast<unsigned int*>(const_cast<char*>(cipher.substr(i + 4, 4).c_str()));
+        lm = *reinterpret_cast<unsigned int*>(const_cast<char*>(input.substr(i, 4).c_str()));
+        rm = *reinterpret_cast<unsigned int*>(const_cast<char*>(input.substr(i + 4, 4).c_str()));
         blowfish.decrypt(lm, rm);
         decipher += from_uint(lm) + from_uint(rm);
     }
@@ -363,21 +363,18 @@ std::string Blowfish_decryptString(const std::string& cipher) {
 }
 
 //*********************************************************************************************************
-
 /*
+void Run(Algorithm a, Algorithm b, std::string author) {
+
+    std::string input = "Hello, World";
+    std::cout << "Original: " << input << std::endl;
+    std::string encryptedString = a(input);
+    std::cout << "Encrypted: " << encryptedString << std::endl;
+    std::string decryptedString = b(encryptedString);
+    std::cout << "Decrypted: " << decryptedString << std::endl;
+}
 int main() {
-    std::string message("Hello, world");
-
-    std::cout << "Original: " << message << std::endl;
-
-    std::string encryptedMessage = Blowfish_encryptString(message);
-
-    std::cout << "Encrypted: " << encryptedMessage << std::endl;
-
-    std::string decryptedMessage = Blowfish_decryptString(encryptedMessage);
-
-    std::cout << "Decrypted: " << decryptedMessage << std::endl;
+    Run(Blowfish_encryptString, Blowfish_decryptString, "Saifullin Bulat");
 
     return 0;
-}
 */
