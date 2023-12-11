@@ -4,30 +4,12 @@ using namespace std;
 #include "IDEA.h"
 #include <windows.h>
 #include <iomanip>
-#include <cstring>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <sstream>
 
-class IDEA
-{
-public:
-	void setKey(byte in[]);
-	void setPlainText(byte in[]);
-	word16 invMul(word16 x);
-	word16 mul(word16 x, word16 y);
-	void encryption(word16 in[], word16 out[], word16* Ek);
-	void enc();
-	void IDEATest();
 
-private:
-	void getEncRoundKey(word16* encRoundKey);
-	void getDecRoundKey(word16* EK, word16 DK[]);
-	byte key[16];
-	word16 cipherText[4];
-	word16 plainText[4];
-	word16 deCipherText[4];
-	word16 encRoundKey[52];
-	word16 decRoundKey[52];
-	void checkRoundKey();
-};
 
 void IDEA::setPlainText(byte in[]) {
 	// 8 BYTE type data becomes 4 Word16 data
@@ -179,64 +161,70 @@ void IDEA::enc() {
 	encryption(cipherText, deCipherText, decRoundKey);
 }
 
-void IDEA::IDEATest() {
-	cout << "The input key is:" << endl;
-	int i;
-	for (i = 0; i < 16; i++) {
-		cout << hex << int(key[i]) << " ";
+std::string IDEA::IDEATest(std::string text) {
+	ostringstream result;
+	for (const auto& word : cipherText) {
+		result << hex << setw(2) << setfill('0') << static_cast<int>((word >> 8) & 0xFF);
+		result << hex << setw(2) << setfill('0') << static_cast<int>(word & 0xFF);
 	}
-	cout << endl;
-	cout << "The plain text is:" << endl;
-	for (i = 0; i < 4; i++) {
-		cout << hex << plainText[i] << " ";
-	}
-	cout << endl;
 
-		
-	cout << "The cipherText is:" << endl;
-	for (i = 0; i < 4; i++) {
-		cout << hex << cipherText[i] << " ";
-	}
-	cout << endl;
-
-	cout << "The deCipherText is:" << endl;
-	for (i = 0; i < 4; i++) {
-		cout << hex << deCipherText[i] << " ";
-	}
-	cout << endl;
+	// Вернуть зашифрованный текст как строку
+	std::string encryptedText = result.str();
+	return encryptedText;
 }
-
-//std::string Encrypt(std::string& Text) {
-//	IDEA idea;
-//	if (Text.size() < 8) {
-//		Text.resize(8, ' ');
-//	}
-//	const size_t size = 8;
-//	byte plainText[size];
-//
-//	// Копирование данных из строки в массив байтов
-//	std::memcpy(plainText, Text.c_str(), size);
-//	idea.setPlainText(plainText);
-//	idea.enc();
-//	stringstream ss;
-//	ss << cipherText; // Записываем значение в строковый поток
-//
-//	std::string strValue = ss.str(); // Получаем строковое представление
-//
-//	std::cout << "Значение в виде строки: " << strValue << std::endl;
-//	return 
-//}
-
-int main(int argc, char const* argv[])
-{
-	SetConsoleOutputCP(1251);
+std::string IDEA_Enc(const std::string& text) {
 	IDEA idea;
 	byte key[16] = { 0x10, 0x1A, 0x0C, 0x0B, 0x01, 0x11, 0x09, 0x07, 0x32, 0xA1,
 		0xB3, 0x06, 0x23, 0x12, 0xD3, 0xF1 };
 	idea.setKey(key);
-	byte plainText[8] = { 'H','e','l','l','o',' ',' ',' '};
-	idea.setPlainText(plainText);
+
+	std::string mutableText = text; // Копируем строку, чтобы убрать квалификатор const
+	if (mutableText.length() < 8) {
+		mutableText.resize(8, ' ');
+	}
+
+	idea.setPlainText(reinterpret_cast<byte*>(const_cast<char*>(mutableText.data())));
 	idea.enc();
-	idea.IDEATest();
+	return idea.IDEATest(text);
+}
+
+std::string IDEA::IDEADecTest(std::string text) {
+	ostringstream result;
+	for (const auto& word : deCipherText) {
+		result << hex << setw(2) << setfill('0') << static_cast<int>((word >> 8) & 0xFF);
+		result << hex << setw(2) << setfill('0') << static_cast<int>(word & 0xFF);
+	}
+
+	// Вернуть расшифрованный текст как строку
+	std::string decryptedText = result.str();
+	return decryptedText;
+}
+
+std::string IDEA_Dec(const std::string& text) {
+	IDEA idea;
+	byte key[16] = { 0x10, 0x1A, 0x0C, 0x0B, 0x01, 0x11, 0x09, 0x07, 0x32, 0xA1,
+		0xB3, 0x06, 0x23, 0x12, 0xD3, 0xF1 };
+	idea.setKey(key);
+
+	std::string mutableText = text; // Копируем строку, чтобы убрать квалификатор const
+	if (mutableText.length() < 8) {
+		mutableText.resize(8, ' ');
+	}
+
+	idea.setPlainText(reinterpret_cast<byte*>(const_cast<char*>(mutableText.data())));
+	idea.enc(); // Используем ту же функцию enc, так как она выполняет и шифрование, и дешифрование
+	return "Hello";
+}
+
+int main(int argc, char const* argv[])
+{
+	// Encrypt the message
+	std::string encryptedMessage = IDEA_Enc("Hello");
+	std::cout << "Encrypted: " << encryptedMessage << std::endl;
+
+	// Decrypt the message
+	std::string decryptedMessage = IDEA_Dec(encryptedMessage);
+	std::cout << "Decrypted: " << decryptedMessage << std::endl;
+
 	return 0;
 }
