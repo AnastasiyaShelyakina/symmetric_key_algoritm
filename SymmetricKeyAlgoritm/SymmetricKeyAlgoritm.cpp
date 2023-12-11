@@ -15,5 +15,6 @@ int main() {
     Run_encryption(DEA_encryption, "Shelyakina Anastasiya");
     // Допишите сюда функцию шифрования
     // Run(название функции, "Ваше имя");
+    Run(IDEA_Encrypted, IDEA_Decrtypted, "Kaparov Alimurad");
     return 0;
 }

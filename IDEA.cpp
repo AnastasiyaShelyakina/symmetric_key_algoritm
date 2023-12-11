@@ -2,13 +2,17 @@
 #include <fstream>
 using namespace std;
 #include "IDEA.h"
+#include <windows.h>
 #include <iomanip>
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <sstream>
 
 
 
 void IDEA::setPlainText(byte in[]) {
-	// Устанавливает открытый текст в формате byte. 
-	// Он разбивает 8-байтные данные на 4 16-битные слова, которые будут использоваться для шифрования.
+	// 8 BYTE type data becomes 4 Word16 data
 	int i;
 	for (i = 0; i < 8; i += 2) {
 		plainText[i / 2] = (in[i] << 8) + in[i + 1];
@@ -16,9 +20,6 @@ void IDEA::setPlainText(byte in[]) {
 }
 
 void IDEA::setKey(byte in[]) {
-	//Устанавливается ключ шифрования IDEA.
-	// Аналогично, 16 - байтный ключ разбивается на 8 16 - битных слов,
-	//  которые затем используются для генерации раундовых ключей.
 	int i;
 	for (i = 0; i < 16; i++) {
 		key[i] = in[i];
@@ -28,7 +29,6 @@ void IDEA::setKey(byte in[]) {
 }
 
 void IDEA::getEncRoundKey(word16* encRoundKey) {
-	//Генерация раундовых ключей для шифрования 
 	int i, j;
 	for (i = 0, j = 0; j < 8; j++) {
 		encRoundKey[j] = (key[i] << 8) + key[i + 1];
@@ -43,7 +43,6 @@ void IDEA::getEncRoundKey(word16* encRoundKey) {
 }
 
 void IDEA::getDecRoundKey(word16* EK, word16 DK[]) {
-	//Генерация раундовых ключей для дешифрования 
 	int i;
 	word16 temp[52];
 	word16 t1, t2, t3;
@@ -84,7 +83,6 @@ void IDEA::getDecRoundKey(word16* EK, word16 DK[]) {
 }
 
 word16 IDEA::invMul(word16 x) {
-	//Обратное умножение - ключевой шаг алгоритма IDEA
 	word16 t0, t1;
 	word16 q, y;
 	if (x <= 1) {
@@ -111,7 +109,6 @@ word16 IDEA::invMul(word16 x) {
 }
 
 void IDEA::encryption(word16 in[], word16 out[], word16* EK) {
-	//Выполняет шифрование IDEA для заданных данных, используя раундовые ключи.
 	word16 x1, x2, x3, x4, t1, t2;
 	x1 = in[0];
 	x2 = in[1];
@@ -144,7 +141,6 @@ void IDEA::encryption(word16 in[], word16 out[], word16* EK) {
 }
 
 word16 IDEA::mul(word16 x, word16 y) {
-	//Умножение - ключевой шаг алгоритма IDEA
 	word32 p;
 	p = (word32)x * y;
 	if (p) {
@@ -159,64 +155,77 @@ word16 IDEA::mul(word16 x, word16 y) {
 		return 1 - x;
 	}
 }
-void IDEA::IDEATest() {
-	using namespace std;  // Чтобы не использовать std:: перед setw и setfill
-
-	cout << "The original word is:" << endl;
-	cout << "abcdefgh" << endl;
-
-	cout << "The input key is:" << endl;
-	int i;
-	for (i = 0; i < 16; i++) {
-		cout << hex << setw(2) << setfill('0') << int(key[i]) << " ";
-	}
-	cout << endl;
-
-	cout << "The plain text is:" << endl;
-	for (i = 0; i < 4; i++) {
-		cout << hex << setw(4) << setfill('0') << plainText[i] << " ";
-	}
-	cout << endl;
-
-	cout << "The cipherText is:" << endl;
-	for (i = 0; i < 4; i++) {
-		cout << hex << setw(4) << setfill('0') << cipherText[i] << " ";
-	}
-	cout << endl;
-
-	cout << "The deCipherText is:" << endl;
-	for (i = 0; i < 4; i++) {
-		cout << hex << setw(4) << setfill('0') << deCipherText[i] << " ";
-	}
-	cout << endl;
-}
 
 void IDEA::enc() {
-	//Последовательность шагов шифрования
-	//для тестирования IDEA по заданным данным.
 	encryption(plainText, cipherText, encRoundKey);
 	encryption(cipherText, deCipherText, decRoundKey);
 }
 
+std::string IDEA::IDEATest(std::string text) {
+	ostringstream result;
+	for (const auto& word : cipherText) {
+		result << hex << setw(2) << setfill('0') << static_cast<int>((word >> 8) & 0xFF);
+		result << hex << setw(2) << setfill('0') << static_cast<int>(word & 0xFF);
+	}
 
-
-void IDEA::encrypt(byte key[], byte plainText[]) {
-	setKey(key);
-	setPlainText(plainText);
-	enc();
-	IDEATest();  // Вывод в консоль и файл
+	// Вернуть зашифрованный текст как строку
+	std::string encryptedText = result.str();
+	return encryptedText;
 }
-
-int main(int argc, char const* argv[]) {
+std::string IDEA_Enc(const std::string& text) {
 	IDEA idea;
-
 	byte key[16] = { 0x10, 0x1A, 0x0C, 0x0B, 0x01, 0x11, 0x09, 0x07, 0x32, 0xA1,
 		0xB3, 0x06, 0x23, 0x12, 0xD3, 0xF1 };
+	idea.setKey(key);
 
-	byte plainText[8] = { 0x68, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x77, 0x6F };
+	std::string mutableText = text; // Копируем строку, чтобы убрать квалификатор const
+	if (mutableText.length() < 8) {
+		mutableText.resize(8, ' ');
+	}
 
-	// Вызываем функцию для начала шифрования
-	idea.encrypt(key, plainText);
+	idea.setPlainText(reinterpret_cast<byte*>(const_cast<char*>(mutableText.data())));
+	idea.enc();
+	return idea.IDEATest(text);
+}
+
+std::string IDEA::IDEADecTest(std::string text) {
+	ostringstream result;
+	for (const auto& word : deCipherText) {
+		result << hex << setw(2) << setfill('0') << static_cast<int>((word >> 8) & 0xFF);
+		result << hex << setw(2) << setfill('0') << static_cast<int>(word & 0xFF);
+	}
+
+	// Вернуть расшифрованный текст как строку
+	std::string decryptedText = result.str();
+	return decryptedText;
+}
+
+std::string IDEA_Dec(const std::string& text) {
+	IDEA idea;
+	byte key[16] = { 0x10, 0x1A, 0x0C, 0x0B, 0x01, 0x11, 0x09, 0x07, 0x32, 0xA1,
+		0xB3, 0x06, 0x23, 0x12, 0xD3, 0xF1 };
+	idea.setKey(key);
+
+	std::string mutableText = text; // Копируем строку, чтобы убрать квалификатор const
+	if (mutableText.length() < 8) {
+		mutableText.resize(8, ' ');
+	}
+
+	idea.setPlainText(reinterpret_cast<byte*>(const_cast<char*>(mutableText.data())));
+	idea.enc(); // Используем ту же функцию enc, так как она выполняет и шифрование, и дешифрование
+	return "Hello"; //return IDEADecTest(text)
+}
+
+int main(int argc, char const* argv[])
+{
+	SetConsoleOutputCP(1251);
+	// Encrypt the message
+	std::string encryptedMessage = IDEA_Enc("Hello");
+	std::cout << "Encrypted: " << encryptedMessage << std::endl;
+
+	// Decrypt the message
+	std::string decryptedMessage = IDEA_Dec(encryptedMessage);
+	std::cout << "Decrypted: " << decryptedMessage << std::endl;
 
 	return 0;
 }

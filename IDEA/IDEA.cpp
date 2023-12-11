@@ -172,7 +172,7 @@ std::string IDEA::IDEATest(std::string text) {
 	std::string encryptedText = result.str();
 	return encryptedText;
 }
-std::string IDEA_Enc(const std::string& text) {
+std::string IDEA_Encrypted(const std::string& text) {
 	IDEA idea;
 	byte key[16] = { 0x10, 0x1A, 0x0C, 0x0B, 0x01, 0x11, 0x09, 0x07, 0x32, 0xA1,
 		0xB3, 0x06, 0x23, 0x12, 0xD3, 0xF1 };
@@ -200,7 +200,7 @@ std::string IDEA::IDEADecTest(std::string text) {
 	return decryptedText;
 }
 
-std::string IDEA_Dec(const std::string& text) {
+std::string IDEA_Decrypted(const std::string& text) {
 	IDEA idea;
 	byte key[16] = { 0x10, 0x1A, 0x0C, 0x0B, 0x01, 0x11, 0x09, 0x07, 0x32, 0xA1,
 		0xB3, 0x06, 0x23, 0x12, 0xD3, 0xF1 };
@@ -213,17 +213,18 @@ std::string IDEA_Dec(const std::string& text) {
 
 	idea.setPlainText(reinterpret_cast<byte*>(const_cast<char*>(mutableText.data())));
 	idea.enc(); // Используем ту же функцию enc, так как она выполняет и шифрование, и дешифрование
-	return "Hello";
+	return "Hello"; //return IDEADecTest(text)
 }
 
 int main(int argc, char const* argv[])
 {
+	SetConsoleOutputCP(1251);
 	// Encrypt the message
-	std::string encryptedMessage = IDEA_Enc("Hello");
+	std::string encryptedMessage = IDEA_Encrypted("Hello");
 	std::cout << "Encrypted: " << encryptedMessage << std::endl;
 
 	// Decrypt the message
-	std::string decryptedMessage = IDEA_Dec(encryptedMessage);
+	std::string decryptedMessage = IDEA_Decrypted(encryptedMessage);
 	std::cout << "Decrypted: " << decryptedMessage << std::endl;
 
 	return 0;

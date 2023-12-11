@@ -1,3 +1,4 @@
+//define the type of data
 typedef unsigned char byte;
 typedef unsigned short word16;//16bit
 typedef unsigned long word32;//32bit
@@ -11,8 +12,8 @@ public:
 	word16 mul(word16 x, word16 y);
 	void encryption(word16 in[], word16 out[], word16* Ek);
 	void enc();
-	void IDEATest();
-	void encrypt(byte key[], byte plainText[]);
+	string IDEATest(std::string text);
+	string IDEADecTest(std::string text);
 
 private:
 	void getEncRoundKey(word16* encRoundKey);
