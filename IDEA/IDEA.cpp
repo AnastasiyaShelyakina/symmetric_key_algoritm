@@ -3,6 +3,7 @@
 using namespace std;
 #include "IDEA.h"
 #include <iomanip>
+#include <algorithm>
 
 void IDEA::setPlainText(byte in[]) {
 	// Устанавливает открытый текст в формате byte. 
@@ -198,30 +199,41 @@ void IDEA::enc() {
 
 
 
-void IDEA::encrypt(std::string& inputString, byte key[]) {
-	if (inputString.size() < 8) {
-		inputString.resize(8, ' ');
-	}
+std::string IDEA::encrypt(const std::string& inputString, byte key[]) {
 	byte plainTextBytes[8] = { 0 };
-	for (size_t i = 0; i < inputString.size(); ++i) {
-		plainTextBytes[i % 8] ^= static_cast<byte>(inputString[i]);
+
+	if (!inputString.empty()) {
+		// Преобразование строки в массив байтов
+		size_t minSize = std::min(inputString.size(), sizeof(plainTextBytes));
+		for (size_t i = 0; i < minSize; ++i) {
+			plainTextBytes[i] = static_cast<byte>(inputString[i]);
+		}
 	}
+
 	setKey(key);
 	setPlainText(plainTextBytes);
 	enc();
-	IDEATest(inputString);  // Вывод в консоль и файл
+
+	// Формирование строки напрямую, без использования std::ostringstream
+	std::string encryptedString;
+	for (int i = 0; i < 4; i++) {
+		char hexBuffer[5]; // Дополнительный буфер для форматирования hex
+		std::snprintf(hexBuffer, sizeof(hexBuffer), "%04X", cipherText[i]);
+		encryptedString += hexBuffer;
+	}
+
+	return encryptedString;
 }
 
 int main(int argc, char const* argv[]) {
 	IDEA idea;
-
-	
-
 	string inputString = "Hello";
 	byte key[16] = { 0x10, 0x1A, 0x0C, 0x0B, 0x01, 0x11, 0x09, 0x07, 0x32, 0xA1,
 		0xB3, 0x06, 0x23, 0x12, 0xD3, 0xF1 };
 	// Вызываем функцию для начала шифрования
-	idea.encrypt(inputString, key);
-	idea.decrypt(inputString, key);
+	std::string encryptedString = idea.encrypt(inputString, key);
+
+	// Вывод или использование зашифрованной строки по необходимости
+	std::cout << "Encrypted string: " << encryptedString << std::endl;
 	return 0;
 }

@@ -12,8 +12,8 @@ public:
 	void encryption(word16 in[], word16 out[], word16* Ek);
 	void enc();
 	void IDEATest(const std::string& inputString);
-	void encrypt(std::string& inputString, byte key[]);
-	void encrypt(std::string& inputString, byte key[]);
+	std::string encrypt(const std::string& inputString, byte key[]);
+	
 
 private:
 	void getEncRoundKey(word16* encRoundKey);
