@@ -108,3 +108,47 @@ public:
         return key;
     }
 };
+
+string encryptMessage(const string& message, const int256& key) {  //шифровка сообщения
+    Magma cipher(key);
+    string encryptedMessage;
+    for (char c : message) {
+        ullong encryptedChar = cipher.encrypt(c);
+        encryptedMessage += to_string(encryptedChar) + " ";
+    }
+    return encryptedMessage;
+}
+
+string decryptMessage(const string& encryptedMessage, const int256& key) { //дешифровка сообщения
+    Magma cipher(key);
+    string decryptedMessage;
+    vector<string> tokens;
+    string token;
+    for (char c : encryptedMessage) {
+        if (c == ' ') {
+            tokens.push_back(token);
+            token.clear();
+        }
+        else {
+            token += c;
+        }
+    }
+    for (const string& token : tokens) {
+        ullong encryptedChar = stoull(token);
+        char decryptedChar = cipher.decrypt(encryptedChar);
+        decryptedMessage += decryptedChar;
+    }
+    return decryptedMessage;
+}
+
+int main() {
+    cout << hex;
+    int256 key(0xffeeddccbbaa9988, 0x7766554433221100, 0xf0f1f2f3f4f5f6f7, 0xf8f9fafbfcfdfeff);
+    string message = "Hello, World!";
+    cout << "message: " << message << endl;
+    string encryptedMessage = encryptMessage(message, key); //вывод слова
+    cout << "Encrypted message: " << encryptedMessage << endl; //вывод зашифровонного слова
+    string decryptedMessage = decryptMessage(encryptedMessage, key);
+    cout << "Decrypted message: " << decryptedMessage << endl; //вывод расшифровонного слова
+    return 0;
+}
