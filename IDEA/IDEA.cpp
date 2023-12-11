@@ -4,30 +4,6 @@ using namespace std;
 #include "IDEA.h"
 #include <iomanip>
 
-class IDEA
-{
-public:
-	void setKey(byte in[]);
-	void setPlainText(byte in[]);
-	word16 invMul(word16 x);
-	word16 mul(word16 x, word16 y);
-	void encryption(word16 in[], word16 out[], word16* Ek);
-	void enc();
-	void IDEATest();
-	void encrypt(byte key[], byte plainText[]);
-
-private:
-	void getEncRoundKey(word16* encRoundKey);
-	void getDecRoundKey(word16* EK, word16 DK[]);
-	byte key[16];
-	word16 cipherText[4];
-	word16 plainText[4];
-	word16 deCipherText[4];
-	word16 encRoundKey[52];
-	word16 decRoundKey[52];
-	void checkRoundKey();
-};
-
 void IDEA::setPlainText(byte in[]) {
 	// Устанавливает открытый текст в формате byte. 
 	// Он разбивает 8-байтные данные на 4 16-битные слова, которые будут использоваться для шифрования.
@@ -181,11 +157,11 @@ word16 IDEA::mul(word16 x, word16 y) {
 		return 1 - x;
 	}
 }
-void IDEA::IDEATest() {
+void IDEA::IDEATest(const std::string& inputString) {
 	using namespace std;  // Чтобы не использовать std:: перед setw и setfill
 
 	cout << "The original word is:" << endl;
-	cout << "abcdefgh" << endl;
+	cout << inputString << endl;
 
 	cout << "The input key is:" << endl;
 	int i;
@@ -222,23 +198,30 @@ void IDEA::enc() {
 
 
 
-void IDEA::encrypt(byte key[], byte plainText[]) {
+void IDEA::encrypt(std::string& inputString, byte key[]) {
+	if (inputString.size() < 8) {
+		inputString.resize(8, ' ');
+	}
+	byte plainTextBytes[8] = { 0 };
+	for (size_t i = 0; i < inputString.size(); ++i) {
+		plainTextBytes[i % 8] ^= static_cast<byte>(inputString[i]);
+	}
 	setKey(key);
-	setPlainText(plainText);
+	setPlainText(plainTextBytes);
 	enc();
-	IDEATest();  // Вывод в консоль и файл
+	IDEATest(inputString);  // Вывод в консоль и файл
 }
 
 int main(int argc, char const* argv[]) {
 	IDEA idea;
 
+	
+
+	string inputString = "Hello";
 	byte key[16] = { 0x10, 0x1A, 0x0C, 0x0B, 0x01, 0x11, 0x09, 0x07, 0x32, 0xA1,
 		0xB3, 0x06, 0x23, 0x12, 0xD3, 0xF1 };
-
-	byte plainText[8] = { 0x68, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x77, 0x6F };
-
 	// Вызываем функцию для начала шифрования
-	idea.encrypt(key, plainText);
-
+	idea.encrypt(inputString, key);
+	idea.decrypt(inputString, key);
 	return 0;
 }
