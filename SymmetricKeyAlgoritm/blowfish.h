@@ -1,5 +1,4 @@
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <array>
 #include <string>
 

@@ -1,6 +1,7 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <string>
 #include "blowfish.h"
+#include "Algorithm.h"
 
 std::string from_uint(uint32_t sh) {
     std::string re("");
@@ -325,8 +326,6 @@ std::string Blowfish_encryptString(const std::string& input) {
     std::string message(input);
     int len = message.length();
     int j = sizeof(uint32_t);
-
-    // Добавляем нулевые байты для выравнивания
     int rem = ((len > j * 2) ? (((len / j * 2) + 1) * j * 2 - len) : (j * 2 - len));
     message.append(rem, '\0');
     len = message.length();
@@ -361,20 +360,3 @@ std::string Blowfish_decryptString(const std::string& input) {
 
     return decipher;
 }
-
-//*********************************************************************************************************
-/*
-void Run(Algorithm a, Algorithm b, std::string author) {
-
-    std::string input = "Hello, World";
-    std::cout << "Original: " << input << std::endl;
-    std::string encryptedString = a(input);
-    std::cout << "Encrypted: " << encryptedString << std::endl;
-    std::string decryptedString = b(encryptedString);
-    std::cout << "Decrypted: " << decryptedString << std::endl;
-}
-int main() {
-    Run(Blowfish_encryptString, Blowfish_decryptString, "Saifullin Bulat");
-
-    return 0;
-*/
