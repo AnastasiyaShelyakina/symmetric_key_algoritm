@@ -10,14 +10,14 @@
 
 using namespace std;
 
-string IDEA_Encrypt(string input) {
+string IDEA_Encrypt(const std::string& input) {
     IDEA ideatest = IDEA();
     ideatest.setMessage(input);
     ideatest.setKey("ZZZZefghijklmnop");
     string ideaencr = ideatest.encrypt();
     return ideaencr;
 }
-string IDEA_Decrypt(string input) {
+string IDEA_Decrypt(const std::string& input) {
     IDEA ideatest = IDEA();
     ideatest.setMessage(input);
     ideatest.setKey("ZZZZefghijklmnop");
