@@ -17,7 +17,7 @@ void Run(Algorithm a, Algorithm b, std::string author) {
     std::cout << "Decrypted: " << decryptedString << std::endl;
 }
 int main() {
-    Run(AES_encryptString, AES_decryptString, "Shelyakina Anastasiya");
+    /*Run(AES_encryptString, AES_decryptString, "Shelyakina Anastasiya");*/
     Run(IDEA_EncryptString, IDEA_DecryptString, "Kaparov Alimurad");
 
     ///Дописываете здесь себя  Run(функция шифровки, функция дешифровки, "имя");

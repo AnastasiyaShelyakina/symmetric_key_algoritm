@@ -21,12 +21,15 @@
     <ClCompile Include="Algorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DEA.cpp">
+    <ClCompile Include="IDEA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Algorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IDEA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

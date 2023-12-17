@@ -10,30 +10,19 @@
 
 using namespace std;
 
-string IDEA_Encrypt(string input) {
+string IDEA_EncryptString(const std::string& input) {
     IDEA ideatest = IDEA();
     ideatest.setMessage(input);
     ideatest.setKey("ZZZZefghijklmnop");
     string ideaencr = ideatest.encrypt();
     return ideaencr;
 }
-string IDEA_Decrypt(string input) {
+string IDEA_DecryptString(const std::string& input) {
     IDEA ideatest = IDEA();
     ideatest.setMessage(input);
     ideatest.setKey("ZZZZefghijklmnop");
-    string ideadecr = ideatest.decrypt(IDEA_Encrypt(input));
+    string ideadecr = ideatest.decrypt(input);
     return ideadecr;
-}
-
-int main()
-{
-    //  IDEA ---------------------------------------
-    cout << "IDEA ALGORITHM:" << endl;
-    string input = "Kakdela";
-    string ideaencr = IDEA_Encrypt(input);
-    string ideadecr = IDEA_Decrypt(input);
-    cout << "Encrypted: " << ideaencr << endl;
-    cout << "Decrypted: " << ideadecr << endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
