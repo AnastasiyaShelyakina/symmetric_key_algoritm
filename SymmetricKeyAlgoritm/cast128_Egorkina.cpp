@@ -10,6 +10,7 @@
 
 using namespace std;
 
+
 vector<Cast128::Block> encryptBlocks(const string& input, const Cast128::Key& key)
 {
     vector<Cast128::Block> encryptedBlocks;
@@ -41,30 +42,67 @@ string decryptBlocks(const vector<Cast128::Block>& encryptedBlocks, const Cast12
     return decryptedText;
 }
 
+//int main()
+//{
+//    Cast128::Key key = {
+//        0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF
+//    };
+//
+//    string input = "Hello, World";
+//
+//        vector<Cast128::Block> encryptedBlocks = encryptBlocks(input, key);
+//
+//        cout << "Encrypted text: ";
+//        for (const auto& encryptedMsg : encryptedBlocks)
+//        {
+//            cout << hex << uppercase << setw(2) << setfill('0') << static_cast<int>(encryptedMsg.Msg[0]);
+//            cout << hex << uppercase << setw(2) << setfill('0') << static_cast<int>(encryptedMsg.Msg[1]);
+//        }
+//        cout << dec << endl;
+//
+//        string decryptedText = decryptBlocks(encryptedBlocks, key);
+//
+//        cout << "Decrypted text: " << decryptedText << endl;
+//
+//    return 0;
+//}
 
-
-int main()
+void Run(const string& input)
 {
     Cast128::Key key = {
-        0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF
-    };
+                0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF
+            };
 
-    string input = "Hello, World";
+    vector<Cast128::Block> encryptedBlocks = encryptBlocks(input, key);
 
-        vector<Cast128::Block> encryptedBlocks = encryptBlocks(input, key);
+    stringstream encryptedStream;
+    for (const auto& encryptedMsg : encryptedBlocks)
+    {
+        encryptedStream << hex << uppercase << setw(2) << setfill('0') << static_cast<int>(encryptedMsg.Msg[0]);
+        encryptedStream << hex << uppercase << setw(2) << setfill('0') << static_cast<int>(encryptedMsg.Msg[1]);
+    }
+    std::string encryptedText;
+    std::string decryptedText;
+    encryptedText = encryptedStream.str();
 
-        cout << "Encrypted text: ";
-        for (const auto& encryptedMsg : encryptedBlocks)
-        {
-            cout << hex << uppercase << setw(2) << setfill('0') << static_cast<int>(encryptedMsg.Msg[0]);
-            cout << hex << uppercase << setw(2) << setfill('0') << static_cast<int>(encryptedMsg.Msg[1]);
-        }
-        cout << dec << endl;
+    decryptedText = decryptBlocks(encryptedBlocks, key);
 
-        string decryptedText = decryptBlocks(encryptedBlocks, key);
+    std::cout << "Encrypted: " << encryptedText << std::endl;
+    std::cout << "Decrypted: " << decryptedText << std::endl;
 
-        cout << "Decrypted text: " << decryptedText << endl;
 
-    return 0;
 }
 
+//int main()
+//{
+//    string input = "Hello, World";
+//    string encryptedText;
+//    string decryptedText;
+//
+//    Run(input, encryptedText, decryptedText);
+//
+//    cout << "Encrypted text: " << encryptedText << endl;
+//    cout << "Decrypted text: " << decryptedText << endl;
+//
+//    return 0;
+//}
