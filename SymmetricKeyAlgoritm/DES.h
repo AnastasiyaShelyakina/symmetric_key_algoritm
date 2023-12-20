@@ -1,3 +1,5 @@
+#ifndef DES_h
+#define DES_h
 #include <iostream>
 #include <cstdlib>
 #include <string>
@@ -115,10 +117,10 @@ private:
 public:
     DES() {}
     // шифрование
-    void encode(string str, string key) {
+    void DES_encryptString(string str) {
         m_code = "";
         total_code = str;
-        total_key = key;
+        total_key = "very secret key";
         if(DEBUG) {
             cout << "getkeys" << endl;
         }
@@ -162,13 +164,13 @@ public:
         cout << m_code << endl;
     }
     // расшифровать
-    void decode(string str, string key) {
+    void DES_decryptString(string str) {
         int count = 0;
         code = "";
         getKeys();
         while(count*64 < str.size()){
             tempCode_1 = str.substr(count*64, 64);
-            total_key = key;
+            total_key = "very secret key";
             count++;
             if(DEBUG) {
                 cout << "K :" << endl;
@@ -498,21 +500,5 @@ public:
     }
 };
 
-/*int main() {
-    string c, k;
-    cout << "Plaintext: ";
-    cin >> c;
-    cout << "Key: ";
-    cin >> k;
-    DES des;
-    cout << "result: ";
-    des.encode(c, k);
-    cout << endl;
-    cout << "Ciphertext: ";
-    cin >> c;
-    cout << "Key: ";
-    cin >> k;
-    cout << "result: ";
-    des.decode(c, k);
-    return 0;
-}*/
+
+#endif /* DES_h */
