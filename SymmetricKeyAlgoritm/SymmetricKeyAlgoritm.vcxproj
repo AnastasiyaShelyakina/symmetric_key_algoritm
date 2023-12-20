@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Algorithm.h" />
+    <ClCompile Include="RS5.cpp" />
     <ClCompile Include="AES.cpp" />
     <ClCompile Include="Algorithm.cpp" />
     <ClCompile Include="cast128.cpp" />
