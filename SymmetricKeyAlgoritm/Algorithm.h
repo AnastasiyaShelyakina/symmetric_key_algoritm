@@ -17,6 +17,9 @@ std::string RS5_decryptString(const std::string& start_message);
 
 std::string encryptMessage(const std::string& message);
 std::string decryptMessage(const std::string& encryptedMessage);
+
+std::string IDEA_EncryptString(const std::string& input);
+std::string IDEA_DecryptString(const std::string& input);
 //std::string DES_encryptString(const std::string& input);
 //std::string DES_decryptString(const std::string & input);
 /// Òàê æå êàê ó ìåíÿ ïèùèòå íàçâàíèå ôóíêöèè øèôðîâàíèÿ (îíà ïðèíèìàåò ñòðîêó è âîçâðàùàåò ñòðîêó)
