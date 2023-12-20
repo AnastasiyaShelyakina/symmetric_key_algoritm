@@ -21,6 +21,10 @@
     <ClCompile Include="Algorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cast128.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cast128_Egorkina.cpp">
     <ClCompile Include="AES.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -32,6 +36,7 @@
     <ClInclude Include="Algorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cast128.h">
     <ClInclude Include="AES.h">
       <Filter>Header Files</Filter>
     </ClInclude>
