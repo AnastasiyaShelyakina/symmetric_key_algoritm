@@ -117,7 +117,7 @@ private:
 public:
     DES() {}
     // шифрование
-    void DES_encryptString(string str) {
+    string DES_encryptString(string str) {
         m_code = "";
         total_code = str;
         total_key = "very secret key";
@@ -161,10 +161,10 @@ public:
                 cout << result.size() << endl;
             }
         }
-        cout << m_code << endl;
+        return m_code;
     }
     // расшифровать
-    void DES_decryptString(string str) {
+    string DES_decryptString(string str) {
         int count = 0;
         code = "";
         getKeys();
@@ -195,7 +195,7 @@ public:
                 code += formatResult(result);
             }
         }
-        cout << code << endl;
+        return code;
     }
     // часть пароля
     // заполняем строку

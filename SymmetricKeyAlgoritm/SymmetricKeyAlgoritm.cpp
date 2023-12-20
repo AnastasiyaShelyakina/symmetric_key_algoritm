@@ -4,6 +4,7 @@
 #include "Algorithm.h"
 #include "AES.h"
 #include "blowfish.h"
+#include "DES.h"
 /// Если у вас есть заголовочные файлы добавляйте их сюда
 
 
@@ -17,8 +18,14 @@ void Run(Algorithm a, Algorithm b, std::string author) {
     std::cout << "Decrypted: " << decryptedString << std::endl;
 }
 int main() {
-    Run(AES_encryptString, AES_decryptString, "Shelyakina Anastasiya");
-    Run(Blowfish_encryptString, Blowfish_decryptString, "Saifullin Bulat");
+    std::string input = "Hello, World!";
+    DES des;
+    std::string a = des.DES_encryptString(input);
+   std::string res = des.DES_decryptString(a);
+   std::cout << res;
+    /*Run(AES_encryptString, AES_decryptString, "Shelyakina Anastasiya");
+    Run(Blowfish_encryptString, Blowfish_decryptString, "Saifullin Bulat");*/
+    //Run(des.DES_encryptString, DES_decryptString, "Razin Iliya");
     ///Дописываете здесь себя  Run(функция шифровки, функция дешифровки, "имя");
     
     return 0;

@@ -129,12 +129,17 @@
   <ItemGroup>
     <ClCompile Include="AES.cpp" />
     <ClCompile Include="Algorithm.cpp" />
+    <ClCompile Include="blowfish.cpp" />
+    <ClCompile Include="IDEA.cpp" />
     <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="SymmetricKeyAlgoritm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AES.h" />
     <ClInclude Include="Algorithm.h" />
+    <ClInclude Include="blowfish.h" />
+    <ClInclude Include="DES.h" />
+    <ClInclude Include="IDEA.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
