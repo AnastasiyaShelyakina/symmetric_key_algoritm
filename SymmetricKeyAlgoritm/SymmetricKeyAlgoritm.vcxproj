@@ -130,7 +130,6 @@
     <ClCompile Include="Algorithm.cpp" />
     <ClCompile Include="cast128.cpp" />
     <ClCompile Include="cast128_Egorkina.cpp" />
-    <ClCompile Include="DEA.cpp" />
     <ClCompile Include="SymmetricKeyAlgoritm.cpp" />
   </ItemGroup>
   <ItemGroup>

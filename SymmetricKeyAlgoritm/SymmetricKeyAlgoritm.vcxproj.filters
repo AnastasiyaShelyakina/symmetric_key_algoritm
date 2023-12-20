@@ -21,9 +21,6 @@
     <ClCompile Include="Algorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DEA.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cast128.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

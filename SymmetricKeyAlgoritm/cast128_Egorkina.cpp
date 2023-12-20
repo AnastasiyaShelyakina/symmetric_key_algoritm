@@ -17,8 +17,8 @@ vector<Cast128::Block> encryptBlocks(const string& input, const Cast128::Key& ke
     for (size_t i = 0; i < input.size(); i += 2)
     {
         Cast128::Block msg;
-        msg.Msg[0] = input[i];
-        msg.Msg[1] = input[i + 1];
+        msg.Msg[0] = static_cast<uint8_t>(input[i]);
+        msg.Msg[1] = static_cast<uint8_t>(input[i + 1]);
 
         Cast128::Block encryptedMsg = Cast128::encrypt(key, msg);
         encryptedBlocks.push_back(encryptedMsg);
@@ -34,67 +34,37 @@ string decryptBlocks(const vector<Cast128::Block>& encryptedBlocks, const Cast12
     for (const auto& encryptedMsg : encryptedBlocks)
     {
         Cast128::Block decryptedMsg = Cast128::decrypt(key, encryptedMsg);
-        decryptedText += decryptedMsg.Msg[0];
-        decryptedText += decryptedMsg.Msg[1];
+        decryptedText += static_cast<char>(decryptedMsg.Msg[0]);
+        decryptedText += static_cast<char>(decryptedMsg.Msg[1]);
     }
 
     return decryptedText;
 }
 
-std::string readDataFromFile(const std::string& filename) {
-    std::ifstream file(filename);
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    return buffer.str();
-}
+
 
 int main()
 {
-    Cast128::Key key;
-    Cast128::generateKey(key); // Generate a key
+    Cast128::Key key = {
+        0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF
+    };
 
-    std::string filename;
-    cout << "Enter the name of the file to read data from: ";
-
-    //string input;
-    //cout << "Enter the word to encrypt: ";
-    getline(cin, filename);
-
-    try
-    {
-
-        std::string input = readDataFromFile(filename);
-
-        // Засечка времени начала
-        auto start_time = chrono::steady_clock::now();
+    string input = "Hello, World";
 
         vector<Cast128::Block> encryptedBlocks = encryptBlocks(input, key);
 
-        /*cout << "Encrypted text: ";
+        cout << "Encrypted text: ";
         for (const auto& encryptedMsg : encryptedBlocks)
         {
             cout << hex << uppercase << setw(2) << setfill('0') << static_cast<int>(encryptedMsg.Msg[0]);
             cout << hex << uppercase << setw(2) << setfill('0') << static_cast<int>(encryptedMsg.Msg[1]);
         }
-        cout << dec << endl;*/
+        cout << dec << endl;
 
         string decryptedText = decryptBlocks(encryptedBlocks, key);
 
-        // Засечка времени окончания
-        auto end_time = chrono::steady_clock::now();
-
-        // Вывод времени выполнения
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-
-        std::cout << "Execution time: " << duration.count() << " milliseconds" << std::endl;
-
-
-        //cout << "Decrypted text: " << decryptedText << endl;
-    }
-    catch (const std::exception& e)
-    {
-        cout << e.what() << endl;
-    }
+        cout << "Decrypted text: " << decryptedText << endl;
 
     return 0;
 }
+
