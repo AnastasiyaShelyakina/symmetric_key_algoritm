@@ -25,6 +25,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cast128_Egorkina.cpp">
+    <ClCompile Include="AES.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,6 +37,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cast128.h">
+    <ClInclude Include="AES.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
