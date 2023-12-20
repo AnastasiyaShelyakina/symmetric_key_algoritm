@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Algorithm.h" />
     <ClCompile Include="RS5.cpp" />
     <ClCompile Include="SymmetricKeyAlgoritm.cpp" />
   </ItemGroup>

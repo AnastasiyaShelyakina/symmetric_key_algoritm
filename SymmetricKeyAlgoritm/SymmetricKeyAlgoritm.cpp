@@ -1,9 +1,22 @@
-﻿// SymmetricKeyAlgoritm.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+﻿#include <iostream>
+#include <fstream>
+#include <string>
+#include "Algorithm.h"
+/// Если у вас есть заголовочные файлы добавляйте их сюда
 
-#include <iostream>
 
-//int main()
-//{
-//    std::cout << "Hello team!\n";
-//}
+void Run(Algorithm a, Algorithm b, std::string author) {
+
+    std::string input = "Hello, World";
+    std::cout << "Original: " << input << std::endl;
+    std::string encryptedString = a(input);
+    std::cout << "Encrypted: " << encryptedString << std::endl;
+    std::string decryptedString = b(encryptedString);
+    std::cout << "Decrypted: " << decryptedString << std::endl;
+}
+int main() {
+    Run(RS5_encryptString, RS5_decryptString, "Zheludov Timofey");
+    ///Дописываете здесь себя  Run(функция шифровки, функция дешифровки, "имя");
+
+    return 0;
+}

@@ -4,8 +4,11 @@
 #include <algorithm>
 #include <iomanip>
 #include <sstream>
+#include <chrono>
+#include <fstream>
+#include "Algorithm.h"
 
-
+using namespace std;
 typedef unsigned long long ull;
 
 typedef unsigned short int word;
@@ -13,10 +16,10 @@ typedef unsigned short int word;
 const double e = exp(1);
 const double phi = (1 + sqrt(5)) / 2;
 
-const unsigned int key_length = 8;
-const unsigned int width = 32;
+const unsigned int key_length = 16;
+const unsigned int width = 64;
 const unsigned int rounds = 16;
-std::vector<word> key = { 1234, 4321 };
+std::vector<word> key = { 0x1234, 0x4321, 0x1764, 0x8521 , 0x3245 , 0x8473, 0x9872,0x8712};
 
 
 template<class T>
@@ -98,7 +101,7 @@ std::pair<word, word> decryptBlock(word left, word right, const std::vector<word
     return std::make_pair(left, right);
 }
 
-std::string encrypt(
+std::string RS5_encryptString(
     const std::string& start_message
 ) {
 
@@ -131,7 +134,7 @@ std::string encrypt(
     return oss.str();
 }
 
-std::string decrypt(const std::string& start_message){
+std::string RS5_decryptString(const std::string& start_message){
     std::vector<word> message;
     std::istringstream iss(start_message);
     int num;
@@ -162,17 +165,3 @@ std::string decrypt(const std::string& start_message){
     return result;
 }
 
-
-int main(int argc, const char* argv[]) {
-    std::cout << "Algorithm RC5-" << width / CHAR_BIT << "/" << rounds << "/" << key_length << std::endl;
-    std::string user_message = "Алгоритм";
-    std::string encodedMessage;
-
-
-    std::cout << "User Message: " << user_message << std::endl;
-    encodedMessage = encrypt(user_message);
-    std::cout << "Encoded Message: " << encodedMessage << std::endl;
-    std::cout << "Decoded Message: " << decrypt(encodedMessage) << std::endl;
-
-    return 0;
-}
