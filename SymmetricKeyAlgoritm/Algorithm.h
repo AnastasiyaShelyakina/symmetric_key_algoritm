@@ -11,6 +11,12 @@ std::string AES_encryptString(const std::string& input);
 std::string AES_decryptString(const std::string & input);
 std::string Blowfish_encryptString(const std::string& input);
 std::string Blowfish_decryptString(const std::string& input);
+std::string RS5_encryptString(const std::string& start_message);
+std::string RS5_decryptString(const std::string& start_message);
+
+
+std::string encryptMessage(const std::string& message);
+std::string decryptMessage(const std::string& encryptedMessage);
 //std::string DES_encryptString(const std::string& input);
 //std::string DES_decryptString(const std::string & input);
 /// Òàê æå êàê ó ìåíÿ ïèùèòå íàçâàíèå ôóíêöèè øèôðîâàíèÿ (îíà ïðèíèìàåò ñòðîêó è âîçâðàùàåò ñòðîêó)

@@ -132,7 +132,9 @@
     <ClCompile Include="cast128.cpp" />
     <ClCompile Include="cast128_Egorkina.cpp" />
     <ClCompile Include="blowfish.cpp" />
+    <ClCompile Include="GOST28.cpp" />
     <ClCompile Include="IDEA.cpp" />
+    <ClCompile Include="RS5.cpp" />
     <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="SymmetricKeyAlgoritm.cpp" />
   </ItemGroup>
