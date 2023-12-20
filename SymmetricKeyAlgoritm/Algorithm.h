@@ -1,11 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-
-using Algorithm = std::string(*)(const std::string&);
-
-std::string RS5_encryptString(const std::string& input);
-std::string RS5_decryptString(const std::string& input);
 //
 //std::string encryptCAST128(const std::string& input);
 //std::string decryptCAST128(const std::vector<Cast128::Block>& encryptedBlocks);
